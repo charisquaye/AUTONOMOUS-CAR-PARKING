@@ -1,16 +1,16 @@
 # Autonomous Vehicle Parking using Proximal Policy Optimisation
 
-**DSCD 614 – Reinforcement Learning**\
-University of Ghana, Department of Computer Science\
+**DSCD 614 – Reinforcement Learning**  
+University of Ghana, Department of Computer Science  
 MPhil/MSc Computer Science & Data Science, 2025/2026
 
-**Group Members**\
-- ADDO, Austine Gamey (22424506)\
-- Andrews Anseiku Junior (22427819)\
+**Group Members**  
+- ADDO, Austine Gamey (22424506)  
+- Andrews Anseiku Junior (22427819)  
 - George Manuel (22424752)
 
-**Project Option:** PPO-1\
-**Algorithm:** Proximal Policy Optimisation (PPO)\
+**Project Option:** PPO-1  
+**Algorithm:** Proximal Policy Optimisation (PPO)  
 **Environment:** HighwayEnv `parking-v0`
 
 ------------------------------------------------------------------------
@@ -21,7 +21,11 @@ Autonomous parking is a practical and safety-critical sub-task of autonomous dri
 
 This project implements and evaluates a PPO agent on the HighwayEnv parking environment. The agent is compared against a deterministic rule-based geometric controller under a controlled multi-seed experimental protocol. The emphasis of the work is on rigorous formulation, reproducible protocol and honest analysis rather than on achieving published benchmark scores.
 
-**Aims** 1. Formulate the parking task as an MDP with explicit state, action, reward, termination and discount factor. 2. Train a PPO agent with three independent random seeds. 3. Evaluate the trained agent against the required rule-based baseline under identical conditions. 4. Analyse convergence, stability and the effect of the chosen reward design.
+**Aims**  
+1. Formulate the parking task as an MDP with explicit state, action, reward, termination and discount factor.  
+2. Train a PPO agent with three independent random seeds.  
+3. Evaluate the trained agent against the required rule-based baseline under identical conditions.  
+4. Analyse convergence, stability and the effect of the chosen reward design.
 
 ------------------------------------------------------------------------
 
@@ -100,15 +104,16 @@ We wrap HighwayEnv `parking-v0` with a custom observation flattener so that a st
 - Policy: MLP with two hidden layers of 256 units (actor and critic).
 - Algorithm: PPO (Stable-Baselines3).
 - Hyperparameters are listed in the accompanying `Hyperparameters_and_Seeds` document and are held constant across the three training seeds (42, 123, 456).
-- Total timesteps per seed: 300 000 (or a reduced number if compute is limited; any reduction is stated in the results section).
+- Total timesteps per seed: 300 000.
+- Parallel environments: 4.
 
 ### 4.3 Baseline
 
 A deterministic geometric controller is implemented:
 
-1.  Compute heading error toward the goal position.
-2.  Steer proportionally and accelerate (or reverse if pointing away).
-3.  When close to the goal, switch to orientation alignment and braking.
+1. Compute heading error toward the goal position.
+2. Steer proportionally and accelerate (or reverse if pointing away).
+3. When close to the goal, switch to orientation alignment and braking.
 
 The baseline is evaluated with the identical evaluation harness, seeds and metric code used for the PPO agent.
 
@@ -116,7 +121,7 @@ The baseline is evaluated with the identical evaluation harness, seeds and metri
 
 - Held-out evaluation seeds.
 - Exploration disabled (`deterministic=True`).
-- At least 30 episodes per seed.
+- 30 episodes per seed.
 - Metrics: success rate, collision rate, mean episode return, mean final distance, mean final orientation error, mean episode length.
 - Mean and standard deviation across seeds are reported for every metric.
 
@@ -124,39 +129,70 @@ The baseline is evaluated with the identical evaluation harness, seeds and metri
 
 ## 5. Results
 
-*(After full training the following tables and figures will be populated from the committed logs.)*
+All figures and tables below are produced from the raw logs and evaluation files committed to the repository (`logs/run_20260914_092903/` and `results/evaluation.json`).
 
 ### 5.1 Training Curves
 
-Training return versus episode (mean ± 1 standard deviation across the three seeds) will be shown in Figure 1. Raw episode returns are stored as `.npz` files in the repository so that the figure can be regenerated exactly.
+Training was performed for 300 000 timesteps on each of three seeds (42, 123, 456). Approximately 17 800–18 200 episodes were collected per seed. The mean return of the last 100 episodes of each run remained negative and clustered tightly around −10.6 to −11.1:
+
+| Seed | Episodes logged | Mean return (last 100) |
+|------|-----------------|------------------------|
+| 42   | 17 798          | −10.97                 |
+| 123  | 17 978          | −11.06                 |
+| 456  | 18 238          | −10.62                 |
+
+The training-return plot (Figure 1, `figures/training_return.png`) shows that learning curves across the three seeds are highly similar: returns rise modestly from the initial random-policy regime but plateau at a still-negative value. No seed exhibits clear divergence or catastrophic collapse, indicating that the optimisation itself is stable even though final task performance remains low.
 
 ### 5.2 Evaluation against Baseline
 
-| Metric                       | PPO (mean ± std) | Rule-based baseline |
-|------------------------------|------------------|---------------------|
-| Success rate                 | *to be filled*   | *to be filled*      |
-| Mean episode return          | *to be filled*   | *to be filled*      |
-| Collision rate               | *to be filled*   | *to be filled*      |
-| Mean final distance          | *to be filled*   | *to be filled*      |
-| Mean final orientation error | *to be filled*   | *to be filled*      |
+Each trained model and the rule-based baseline were evaluated for 30 deterministic episodes. Aggregate statistics (mean ± standard deviation across the three training seeds) are reported below.
+
+| Metric                         | PPO (mean ± std)          | Rule-based baseline      |
+|--------------------------------|---------------------------|--------------------------|
+| Success rate                   | 0.022 ± 0.031             | 0.000                    |
+| Collision rate                 | 0.978 ± 0.031             | 0.833                    |
+| Mean episode return            | −11.08 ± 0.11             | −28.29                   |
+| Mean final distance            | 0.087 ± 0.015             | 0.301                    |
+| Mean final orientation error   | 1.455 ± 0.223             | 1.445                    |
+| Mean episode length            | 15.3 ± 0.5                | 45.6                     |
+
+Per-seed PPO results:
+
+| Seed | Success rate | Collision rate | Mean return | Mean final distance | Mean orient. error |
+|------|--------------|----------------|-------------|---------------------|--------------------|
+| 42   | 0.067        | 0.933          | −10.93      | 0.070               | 1.156              |
+| 123  | 0.000        | 1.000          | −11.12      | 0.085               | 1.511              |
+| 456  | 0.000        | 1.000          | −11.19      | 0.105               | 1.696              |
 
 ### 5.3 Statistical Note
 
-With only three seeds, claims about the magnitude of the difference between PPO and the baseline are necessarily cautious. We report the observed means and standard deviations and state whether the difference exceeds the variation across seeds.
+With only three seeds the magnitude of any difference must be interpreted cautiously. PPO obtains a higher (less negative) mean return and a lower final distance than the baseline, yet both methods fail to park reliably. The observed success-rate difference (≈ 2 % versus 0 %) is smaller than the variation across seeds and cannot be regarded as statistically meaningful.
 
 ------------------------------------------------------------------------
 
 ## 6. Discussion
 
-*(To be completed after full training.)*
+### 6.1 Convergence and Training Stability
 
-Topics that will be addressed:
+The three independent training runs produced nearly identical learning curves and final returns. This indicates that the PPO optimisation is stable under the chosen hyperparameters (learning rate $3\times10^{-4}$, clip range 0.2, entropy coefficient 0.01). The absence of large variance across seeds is a positive finding; the algorithm is not brittle. However, the plateau at approximately −11 shows that the policy stops improving long before it masters the parking task.
 
-- Convergence behaviour and training stability across seeds.
-- Quality of exploration under the chosen entropy coefficient.
-- Effect of the native weighted $p$-norm reward on final pose accuracy.
-- Situations in which the rule-based baseline fails (large initial heading error, tight manoeuvres) and whether the learned policy overcomes them.
-- Sensitivity to the success threshold and collision penalty.
+### 6.2 Exploration
+
+The entropy coefficient of 0.01 provides only mild stochasticity. In a continuous control problem whose successful trajectories occupy a narrow region of the action space (precise steering and braking near the goal), this level of exploration appears insufficient. Once the agent discovers that aggressive acceleration yields rapid collisions (and therefore large negative rewards), it tends to adopt a cautious but still unsuccessful policy that terminates early by collision or truncation.
+
+### 6.3 Effect of Reward Design
+
+The native HighwayEnv reward is a weighted $p$-norm proximity term plus a collision penalty of −5 and a small success bonus of +0.12. Because the collision penalty is large relative to the proximity reward, any trajectory that risks contact is heavily discouraged. In practice the agent learns to keep distance from obstacles but never acquires the fine-grained manoeuvres needed to enter the parking bay. The sparse success signal (+0.12) is received too rarely to shape the policy effectively within 300 000 steps.
+
+### 6.4 Comparison with the Baseline
+
+The geometric baseline also fails on the evaluation set (0 % success). Its longer episode lengths (≈ 46 steps versus ≈ 15 for PPO) show that it continues attempting alignment, whereas the learned policy aborts early. PPO nevertheless achieves a substantially higher mean return (−11 versus −28) and a smaller final distance to the goal, indicating that it has internalised a better proximity-seeking behaviour even though it does not complete the park.
+
+### 6.5 Summary of Observed Limitations
+
+- Success remains near zero for both methods under the chosen evaluation conditions.
+- The combination of a strong collision penalty and limited exploration prevents the discovery of successful parking trajectories.
+- 300 000 timesteps, while consistent across seeds, appear insufficient for reliable mastery of the continuous parking task with the current reward.
 
 ------------------------------------------------------------------------
 
@@ -167,14 +203,21 @@ Topics that will be addressed:
 - Parking bays are static and free of pedestrians or moving vehicles.
 - Compute was limited to the resources available to a student group within a fourteen-day window; longer training or larger networks may improve performance.
 - The policy is deterministic at evaluation time; stochastic deployment would require additional safety layers.
+- The present reward design strongly penalises collisions and provides only a weak success signal, which appears to hinder learning of complete parking manoeuvres.
 
 ------------------------------------------------------------------------
 
 ## 8. Conclusion and Further Work
 
-We have formulated autonomous parking as a continuous-control MDP, implemented a PPO agent and a rule-based baseline, and defined a reproducible multi-seed evaluation protocol. After full training the quantitative comparison will indicate whether the learned policy improves upon the geometric heuristic under the chosen metrics.
+We formulated autonomous parking as a continuous-control MDP, implemented a PPO agent and a rule-based baseline, and executed a reproducible multi-seed evaluation protocol. Training was stable across three seeds, yet final success rates remained near zero for both the learned policy and the geometric controller. The results highlight that a stable optimisation procedure alone is insufficient; reward design and exploration must be carefully tuned for the sparse-success continuous-control setting.
 
-Further work includes the addition of parked vehicles as obstacles, domain randomisation of vehicle parameters, and transfer to a higher-fidelity simulator such as CARLA.
+Further work includes:
+
+- denser or hierarchical reward shaping that rewards intermediate progress toward a successful park,
+- increased entropy or curiosity-driven exploration,
+- longer training budgets or curriculum learning on progressively harder initial poses,
+- addition of parked vehicles as obstacles and domain randomisation of vehicle parameters,
+- transfer to a higher-fidelity simulator such as CARLA.
 
 ------------------------------------------------------------------------
 

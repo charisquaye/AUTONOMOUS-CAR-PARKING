@@ -6,7 +6,6 @@ MPhil/MSc Computer Science & Data Science, 2025/2026
 
 **Group Members**  
 - ADDO, Austine Gamey (22424506)  
-- Andrews Anseiku Junior (22427819)  
 - George Manuel (22424752)
 
 **Project Option:** PPO-1  

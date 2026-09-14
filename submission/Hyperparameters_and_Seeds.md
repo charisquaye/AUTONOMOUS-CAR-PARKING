@@ -1,7 +1,7 @@
 # Hyperparameters and Seeds
 
 **Project:** PPO-1 Autonomous Vehicle Parking  
-**Group Members:** ADDO Austine Gamey (22424506), Andrews Anseiku Junior (22427819), George Manuel (22424752)
+**Group Members:** ADDO Austine Gamey (22424506), George Manuel (22424752)
 
 ---
 

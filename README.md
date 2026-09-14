@@ -8,7 +8,6 @@ University of Ghana – 2025/2026
 | Name                    | Student ID |
 |-------------------------|------------|
 | ADDO, Austine Gamey     | 22424506   |
-| Andrews Anseiku Junior  | 22427819   |
 | George Manuel           | 22424752   |
 
 **Project Option:** PPO-1  

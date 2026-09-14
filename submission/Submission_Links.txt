@@ -6,6 +6,6 @@ Project Option Code: PPO-1
 Project Title: Autonomous Vehicle Parking using Proximal Policy Optimisation
 YouTube Demonstration Link: [INSERT YOUTUBE LINK HERE AFTER RECORDING]
 GitHub Repository URL (public): https://github.com/charisquaye/AUTONOMOUS-CAR-PARKING.git
-Final Commit SHA: [INSERT AFTER FINAL PUSH]
+Final Commit SHA: 840292abefa83883a20fc59be8ebc22dfa9cabd7
 Random Seeds Used: 42, 123, 456
 Environment and Version: HighwayEnv parking-v0 (highway-env==1.12.1), Gymnasium 1.3.0

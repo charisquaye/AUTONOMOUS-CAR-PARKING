@@ -1,0 +1,58 @@
+{
+  "ppo_per_seed": {
+    "123": {
+      "success_rate": 0.0,
+      "collision_rate": 1.0,
+      "mean_episode_reward": -11.120759023353388,
+      "std_episode_reward": 1.3016492271744682,
+      "mean_episode_length": 15.133333333333333,
+      "mean_final_distance": 0.08549629400173824,
+      "mean_final_orientation_error": 1.5109322309494018,
+      "n_episodes": 30,
+      "seed_base": 10000
+    },
+    "42": {
+      "success_rate": 0.06666666666666667,
+      "collision_rate": 0.9333333333333333,
+      "mean_episode_reward": -10.933021015123584,
+      "std_episode_reward": 2.3832382265576224,
+      "mean_episode_length": 15.866666666666667,
+      "mean_final_distance": 0.0696012966024379,
+      "mean_final_orientation_error": 1.1560659607251484,
+      "n_episodes": 30,
+      "seed_base": 10000
+    },
+    "456": {
+      "success_rate": 0.0,
+      "collision_rate": 1.0,
+      "mean_episode_reward": -11.194176411764754,
+      "std_episode_reward": 1.3196086222328296,
+      "mean_episode_length": 14.933333333333334,
+      "mean_final_distance": 0.10465430381397406,
+      "mean_final_orientation_error": 1.6964364329973856,
+      "n_episodes": 30,
+      "seed_base": 10000
+    }
+  },
+  "baseline": {
+    "success_rate": 0.0,
+    "collision_rate": 0.8333333333333334,
+    "mean_episode_reward": -28.286074174666687,
+    "std_episode_reward": 17.4554753319867,
+    "mean_episode_length": 45.6,
+    "mean_final_distance": 0.3008552978436152,
+    "mean_final_orientation_error": 1.4454829295476277,
+    "n_episodes": 30
+  },
+  "aggregate": {
+    "ppo_mean_success_rate": 0.022222222222222223,
+    "ppo_std_success_rate": 0.03142696805273544,
+    "ppo_mean_episode_reward": -11.082652150080577,
+    "ppo_std_episode_reward": 0.10996858836860149,
+    "ppo_mean_collision_rate": 0.9777777777777779,
+    "baseline_success_rate": 0.0,
+    "baseline_mean_episode_reward": -28.286074174666687,
+    "n_seeds": 3,
+    "n_eval_episodes_per_seed": 30
+  }
+}

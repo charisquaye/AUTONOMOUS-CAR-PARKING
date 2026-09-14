@@ -1,0 +1,34 @@
+# PPO hyperparameters for Autonomous Vehicle Parking (PPO-1)
+# All values that differ from Stable-Baselines3 defaults are listed.
+# These hyperparameters are held constant across all random seeds.
+
+total_timesteps: 300000   # reduce if compute is limited; keep number of seeds
+
+hyperparameters:
+  # Core PPO
+  learning_rate: 0.0003          # SB3 default 3e-4
+  n_steps: 2048                  # SB3 default
+  batch_size: 64                 # SB3 default
+  n_epochs: 10                   # SB3 default
+  gamma: 0.99                    # justified by short effective horizon (~20 s)
+  gae_lambda: 0.95               # SB3 default
+  clip_range: 0.2                # SB3 default
+  ent_coef: 0.01                 # slightly higher than default 0.0 to encourage exploration
+  vf_coef: 0.5                   # SB3 default
+  max_grad_norm: 0.5             # SB3 default
+
+  # Network architecture (MLP)
+  policy_kwargs:
+    net_arch:
+      pi: [256, 256]             # actor
+      vf: [256, 256]             # critic
+    activation_fn: "torch.nn.ReLU"
+
+# Evaluation protocol (used by evaluate.py)
+evaluation:
+  n_episodes_per_seed: 30
+  deterministic: true
+  seeds_for_eval: [10000, 10001, 10002]   # held-out from training seeds
+
+# Random seeds used for training (must be reported)
+training_seeds: [42, 123, 456]

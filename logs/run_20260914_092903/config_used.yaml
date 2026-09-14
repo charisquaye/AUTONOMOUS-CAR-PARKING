@@ -1,0 +1,25 @@
+hyperparameters:
+  batch_size: 64
+  clip_range: 0.2
+  ent_coef: 0.01
+  gae_lambda: 0.95
+  gamma: 0.99
+  learning_rate: 0.0003
+  max_grad_norm: 0.5
+  n_epochs: 10
+  n_steps: 2048
+  policy_kwargs:
+    activation_fn: torch.nn.ReLU
+    net_arch:
+      pi:
+      - 256
+      - 256
+      vf:
+      - 256
+      - 256
+  vf_coef: 0.5
+seeds:
+- 42
+- 123
+- 456
+total_timesteps: 300000

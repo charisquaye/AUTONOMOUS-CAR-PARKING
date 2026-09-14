@@ -1,0 +1,21 @@
+# Pinned dependencies for reproducibility (PPO-1 Autonomous Vehicle Parking)
+# Python >= 3.10 required
+# Versions verified on the project environment (2026-09)
+
+gymnasium==1.3.0
+highway-env==1.12.1
+stable-baselines3==2.9.0
+torch>=2.0.0
+numpy>=1.24.0,<2.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+pandas>=2.0.0
+pyyaml>=6.0
+tensorboard>=2.14.0
+tqdm>=4.66.0
+imageio>=2.34.0
+imageio-ffmpeg>=0.5.0
+pygame>=2.5.0
+cloudpickle>=3.0.0
+rich>=13.0.0
+sb3-contrib>=2.0.0  # optional, for extra algorithms if needed

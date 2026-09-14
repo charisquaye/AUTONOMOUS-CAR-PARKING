@@ -1,0 +1,20 @@
+[
+  {
+    "seed": 42,
+    "final_model": "models/run_20260914_092903/seed_42/ppo_parking_final.zip",
+    "n_episodes_logged": 17798,
+    "mean_last_100_return": -10.96736983
+  },
+  {
+    "seed": 123,
+    "final_model": "models/run_20260914_092903/seed_123/ppo_parking_final.zip",
+    "n_episodes_logged": 17978,
+    "mean_last_100_return": -11.060622100000003
+  },
+  {
+    "seed": 456,
+    "final_model": "models/run_20260914_092903/seed_456/ppo_parking_final.zip",
+    "n_episodes_logged": 18238,
+    "mean_last_100_return": -10.62144627
+  }
+]

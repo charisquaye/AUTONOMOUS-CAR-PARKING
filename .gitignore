@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+*.egg-info/
+.DS_Store
+.idea/
+.vscode/
+logs/*/seed_*/tb/
+*.monitor.csv
+# Keep final models and npz returns, ignore intermediate checkpoints if large
+models/*/seed_*/ppo_parking_*_steps.zip
